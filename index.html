@@ -1,1 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donnana Bistrô — Catalão, GO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta: #b8552e;
+    --terracotta-deep: #963f20;
+    --wood: #3c2a1c;
+    --wood-deep: #241610;
+    --cream: #f6ecd9;
+    --cream-soft: #efe2c8;
+    --gold: #cf9a45;
+    --rose: #d98a93;
+    --ink: #2a1d14;
+    --green: #59683f;
+    --shadow: 0 20px 50px rgba(36,22,16,.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Karla', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3,h4{font-family:'Fraunces', serif;font-weight:600;line-height:1.08;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px;}
+  ::selection{background:var(--terracotta);color:var(--cream);}
 
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+
+  /* ---------- petals ---------- */
+  #petals{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden;}
+  .petal{
+    position:absolute; top:-40px;
+    font-size:16px;
+    opacity:.75;
+    animation:fall linear infinite, sway ease-in-out infinite;
+    will-change:transform;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));
+  }
+  @keyframes fall{
+    to{ transform:translateY(115vh); }
+  }
+  @keyframes sway{
+    0%,100%{ margin-left:0px; }
+    50%{ margin-left:40px; }
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:22px 0;
+    transition:.4s ease;
+  }
+  header.scrolled{
+    padding:12px 0;
+    background:rgba(36,22,16,.92);
+    backdrop-filter:blur(10px);
+    box-shadow:0 6px 24px rgba(0,0,0,.2);
+  }
+  .navrow{display:flex;align-items:center;justify-content:space-between;}
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.35rem;
+    color:var(--cream);
+    letter-spacing:.02em;
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .brand em{font-style:italic;font-weight:500;color:var(--rose);}
+  nav.links{display:flex;gap:30px;}
+  nav.links a{
+    color:var(--cream-soft);
+    font-size:.94rem;
+    position:relative;
+    padding:4px 0;
+    transition:color .3s;
+  }
+  nav.links a::after{
+    content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;
+    background:var(--gold);transition:width .35s ease;
+  }
+  nav.links a:hover{color:var(--cream);}
+  nav.links a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--terracotta);
+    color:var(--cream)!important;
+    padding:9px 20px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:.88rem;
+    transition:transform .25s, box-shadow .25s, background .25s;
+  }
+  .nav-cta:hover{background:var(--terracotta-deep);transform:translateY(-2px);box-shadow:0 10px 20px rgba(150,63,32,.35);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:120;}
+  .burger span{width:26px;height:2px;background:var(--cream);transition:.3s;}
+  .mobile-menu{
+    position:fixed; inset:0; background:var(--wood-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+    transform:translateY(-100%); transition:transform .5s cubic-bezier(.6,0,.3,1);
+    z-index:110;
+  }
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{color:var(--cream);font-family:'Fraunces',serif;font-size:1.6rem;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    height:100svh; min-height:560px;
+    display:flex; align-items:flex-end;
+    overflow:hidden;
+    color:var(--cream);
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-image:url('images/hero1.jpg');
+    background-size:cover; background-position:center 40%;
+    animation:kenburns 22s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns{
+    0%{transform:scale(1) translate(0,0);}
+    100%{transform:scale(1.13) translate(-1.5%,-1%);}
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(36,20,12,.35) 0%, rgba(36,20,12,.15) 30%, rgba(28,16,10,.88) 100%);
+    z-index:1;
+  }
+  .hero-content{position:relative;z-index:2;width:100%;padding-bottom:64px;}
+  .eyebrow-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;opacity:0;animation:riseIn .9s .2s forwards;}
+  .eyebrow-row .stars{color:var(--gold);letter-spacing:2px;}
+  .eyebrow-row span.sep{opacity:.5;}
+  .hero h1{
+    font-size:clamp(3rem, 9vw, 6.4rem);
+    color:var(--cream);
+    opacity:0; transform:translateY(30px);
+    animation:riseIn 1s .35s forwards;
+  }
+  .hero h1 em{
+    display:block;
+    font-style:italic; font-weight:500;
+    color:var(--rose);
+    font-size:.62em;
+    margin-top:-.08em;
+  }
+  @keyframes riseIn{ to{opacity:1;transform:translateY(0);} }
+  .hero p.tag{
+    max-width:480px; margin-top:18px; font-size:1.08rem;
+    color:var(--cream-soft);
+    opacity:0; animation:riseIn 1s .55s forwards;
+  }
+  .hero-ctas{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;opacity:0;animation:riseIn 1s .72s forwards;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 28px; border-radius:40px;
+    font-weight:600; font-size:.95rem;
+    transition:transform .3s, box-shadow .3s, background .3s;
+    cursor:pointer; border:1px solid transparent;
+  }
+  .btn-primary{background:var(--terracotta);color:var(--cream);}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(150,63,32,.4);background:var(--terracotta-deep);}
+  .btn-ghost{border-color:rgba(246,236,217,.5);color:var(--cream);}
+  .btn-ghost:hover{background:rgba(246,236,217,.12);transform:translateY(-3px);}
+  .scroll-cue{
+    position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+    z-index:2; width:26px;height:42px;border:2px solid rgba(246,236,217,.6);
+    border-radius:20px;
+  }
+  .scroll-cue::before{
+    content:'';position:absolute;top:8px;left:50%;width:4px;height:8px;
+    background:var(--rose);border-radius:3px;transform:translateX(-50%);
+    animation:cue 1.8s ease-in-out infinite;
+  }
+  @keyframes cue{0%{opacity:1;top:8px;}80%{opacity:0;top:22px;}100%{opacity:0;top:8px;}}
+
+  /* ---------- reveal utility ---------- */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease, transform .9s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  .stagger .reveal:nth-child(1){transition-delay:.05s;}
+  .stagger .reveal:nth-child(2){transition-delay:.15s;}
+  .stagger .reveal:nth-child(3){transition-delay:.25s;}
+  .stagger .reveal:nth-child(4){transition-delay:.35s;}
+  .stagger .reveal:nth-child(5){transition-delay:.45s;}
+  .stagger .reveal:nth-child(6){transition-delay:.55s;}
+
+  section{padding:110px 0;position:relative;}
+  .kicker{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500;
+    color:var(--terracotta); font-size:1.05rem; margin-bottom:10px;
+  }
+  .sec-title{font-size:clamp(2.1rem,4vw,3.1rem);max-width:640px;}
+
+  /* ---------- about ---------- */
+  .about{background:var(--cream);}
+  .about-grid{
+    display:grid; grid-template-columns:1fr 1.05fr; gap:64px; align-items:center; margin-top:50px;
+  }
+  .about-photo{
+    position:relative; border-radius:14px; overflow:hidden; box-shadow:var(--shadow);
+    aspect-ratio:4/5;
+  }
+  .about-photo img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease;}
+  .about-photo:hover img{transform:scale(1.08);}
+  .about-photo::after{
+    content:'';position:absolute;inset:0;border:10px solid rgba(246,236,217,.0);
+  }
+  .about-badge{
+    position:absolute; bottom:-26px; right:-26px;
+    background:var(--terracotta); color:var(--cream);
+    width:130px;height:130px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:'Fraunces',serif;font-weight:600;font-size:.85rem;line-height:1.25;
+    box-shadow:0 14px 30px rgba(150,63,32,.4);
+    animation:spin 22s linear infinite;
+  }
+  .about-badge span{display:block;animation:counterspin 22s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes counterspin{to{transform:rotate(-360deg);}}
+  .about-text p{margin-bottom:18px;color:#3a2c20;font-size:1.03rem;max-width:520px;}
+  .pill-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;}
+  .pill{
+    background:var(--cream-soft); border:1px solid #e3d2ab;
+    padding:9px 16px; border-radius:30px; font-size:.85rem; font-weight:600;
+    color:var(--wood);
+  }
+
+  /* stats */
+  .stats{display:flex;gap:48px;margin-top:44px;flex-wrap:wrap;}
+  .stat b{
+    font-family:'Fraunces',serif;font-size:2.6rem;color:var(--terracotta);display:block;font-weight:600;
+  }
+  .stat span{font-size:.85rem;color:#5b4a3a;}
+
+  /* ---------- menu ---------- */
+  .menu-section{background:var(--wood-deep);color:var(--cream);}
+  .menu-section .kicker{color:var(--rose);}
+  .menu-section .sec-title{color:var(--cream);}
+  .menu-section .sec-sub{color:#c9b9a2;max-width:560px;margin-top:14px;}
+  .marquee{
+    margin-top:56px; overflow:hidden; border-top:1px solid rgba(246,236,217,.15); border-bottom:1px solid rgba(246,236,217,.15);
+    padding:16px 0;
+  }
+  .marquee-track{display:flex;gap:40px;width:max-content;animation:scroll-left 26s linear infinite;}
+  .marquee-track span{
+    font-family:'Fraunces',serif;font-style:italic;font-size:1.3rem;color:#a48963;white-space:nowrap;
+  }
+  .marquee-track span::after{content:'✦';margin-left:40px;color:var(--terracotta);font-style:normal;}
+  @keyframes scroll-left{to{transform:translateX(-50%);}}
+
+  .menu-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px;
+  }
+  .dish{
+    position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/5;
+    box-shadow:0 16px 40px rgba(0,0,0,.35);
+    cursor:default;
+  }
+  .dish img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.3,1), filter .8s;}
+  .dish::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(20,12,7,0) 35%, rgba(20,12,7,.92) 100%);
+    z-index:1; transition:opacity .5s;
+  }
+  .dish:hover img{transform:scale(1.12) rotate(.4deg);}
+  .dish-info{
+    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:22px;
+    transform:translateY(14px); transition:transform .5s ease;
+  }
+  .dish:hover .dish-info{transform:translateY(0);}
+  .dish-info h3{font-size:1.32rem;color:var(--cream);}
+  .dish-info p{
+    font-size:.87rem;color:#d8c8ae; margin-top:8px; max-height:0; opacity:0;
+    overflow:hidden; transition:max-height .5s ease, opacity .5s ease;
+  }
+  .dish:hover .dish-info p{max-height:120px;opacity:1;}
+  .dish-tag{
+    position:absolute; top:16px; left:16px; z-index:2;
+    background:rgba(246,236,217,.92); color:var(--wood);
+    font-size:.7rem; font-weight:700; letter-spacing:.03em;
+    padding:5px 11px; border-radius:20px;
+  }
+  .menu-note{
+    text-align:center; margin-top:48px; color:#c9b9a2; font-size:.95rem;
+  }
+  .menu-note a{color:var(--rose);font-weight:700;border-bottom:1px solid var(--rose);}
+
+  /* ---------- reviews ---------- */
+  .reviews{background:var(--cream-soft);overflow:hidden;}
+  .rev-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;}
+  .rev-score{
+    display:flex; align-items:center; gap:16px;
+    background:var(--cream); padding:16px 22px; border-radius:16px; box-shadow:var(--shadow);
+  }
+  .rev-score b{font-family:'Fraunces',serif;font-size:2.4rem;color:var(--terracotta);}
+  .rev-score .stars{color:var(--gold);letter-spacing:2px;font-size:1rem;}
+  .rev-score small{color:#7a6650;display:block;font-size:.78rem;}
+  .rev-track-wrap{margin-top:52px;overflow:hidden;}
+  .rev-track{display:flex;gap:26px;width:max-content;animation:scroll-left 42s linear infinite;}
+  .rev-track:hover{animation-play-state:paused;}
+  .rev-card{
+    width:340px; background:var(--cream); border-radius:16px; padding:30px;
+    box-shadow:0 14px 30px rgba(60,42,28,.12);
+    flex-shrink:0;
+  }
+  .rev-card .stars{color:var(--gold);letter-spacing:3px;margin-bottom:14px;display:block;}
+  .rev-card p{font-size:.95rem;color:#4a3a2b;font-style:italic;}
+  .rev-who{display:flex;align-items:center;gap:12px;margin-top:20px;}
+  .rev-avatar{
+    width:38px;height:38px;border-radius:50%;background:var(--terracotta);
+    color:var(--cream); display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:600;
+  }
+  .rev-who b{font-size:.88rem;display:block;}
+  .rev-who span{font-size:.76rem;color:#8a7660;}
+
+  /* ---------- location ---------- */
+  .location{background:var(--cream);}
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:50px;align-items:stretch;}
+  .loc-card{
+    background:var(--wood); color:var(--cream); border-radius:18px; padding:44px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    box-shadow:var(--shadow);
+    position:relative; overflow:hidden;
+  }
+  .loc-card::after{
+    content:'✦';position:absolute;right:-10px;bottom:-30px;font-size:9rem;color:rgba(246,236,217,.05);
+  }
+  .loc-item{display:flex;gap:16px;margin-bottom:26px;}
+  .loc-ico{
+    width:44px;height:44px;border-radius:50%;background:rgba(216,138,147,.15);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--rose);font-size:1.15rem;
+  }
+  .loc-item h4{font-size:1rem;margin-bottom:4px;color:var(--cream);}
+  .loc-item p, .loc-item a{font-size:.92rem;color:#d8c8ae;}
+  .loc-item a:hover{color:var(--rose);}
+  .loc-btns{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;}
+  .map-wrap{border-radius:18px;overflow:hidden;box-shadow:var(--shadow);position:relative;min-height:340px;}
+  .map-wrap iframe{width:100%;height:100%;min-height:340px;border:0;filter:sepia(.14) saturate(1.05);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--wood-deep);color:#c9b9a2;padding:60px 0 30px;}
+  .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(246,236,217,.1);}
+  .foot-brand{font-family:'Fraunces',serif;color:var(--cream);font-size:1.5rem;}
+  .foot-brand em{color:var(--rose);font-style:italic;}
+  .foot-cols{display:flex;gap:64px;flex-wrap:wrap;}
+  .foot-cols h5{color:var(--cream);font-size:.85rem;letter-spacing:.04em;margin-bottom:14px;}
+  .foot-cols a, .foot-cols p{display:block;font-size:.88rem;margin-bottom:10px;color:#c9b9a2;transition:color .3s;}
+  .foot-cols a:hover{color:var(--rose);}
+  .foot-bottom{display:flex;justify-content:space-between;padding-top:26px;font-size:.78rem;flex-wrap:wrap;gap:10px;color:#8a7660;}
+
+  /* ---------- whatsapp fab ---------- */
+  .fab{
+    position:fixed; bottom:26px; right:26px; z-index:90;
+    width:60px;height:60px;border-radius:50%;
+    background:#3fae5a; color:#fff; display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 30px rgba(0,0,0,.3);
+    font-size:1.6rem;
+    transform:scale(0); transition:transform .4s cubic-bezier(.5,-0.3,.4,1.5);
+  }
+  .fab.show{transform:scale(1);}
+  .fab::before{
+    content:'';position:absolute;inset:0;border-radius:50%;background:#3fae5a;
+    animation:pulse 2.4s ease-out infinite; z-index:-1;
+  }
+  @keyframes pulse{0%{transform:scale(1);opacity:.6;}100%{transform:scale(1.9);opacity:0;}}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:920px){
+    nav.links, .nav-cta{display:none;}
+    .burger{display:flex;}
+    .about-grid{grid-template-columns:1fr;gap:44px;}
+    .menu-grid{grid-template-columns:repeat(2,1fr);}
+    .loc-grid{grid-template-columns:1fr;}
+    section{padding:80px 0;}
+  }
+  @media (max-width:600px){
+    .menu-grid{grid-template-columns:1fr;}
+    .stats{gap:30px;}
+    .about-badge{width:104px;height:104px;font-size:.72rem;right:6px;bottom:-20px;}
+    .hero h1{font-size:clamp(2.5rem,13vw,4rem);}
+  }
+</style>
+</head>
+<body>
+
+<div id="petals"></div>
+
+<header id="siteHeader">
+  <div class="wrap navrow">
+    <div class="brand">Donnana <em>Bistrô</em></div>
+    <nav class="links">
+      <a href="#sobre">Sobre</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#local">Localização</a>
+    </nav>
+    <a class="nav-cta" href="#local">Reservar mesa</a>
+    <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre">Sobre</a>
+  <a href="#cardapio">Cardápio</a>
+  <a href="#depoimentos">Depoimentos</a>
+  <a href="#local">Localização</a>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-content">
+    <div class="eyebrow-row">
+      <span class="stars">★★★★★</span>
+      <span class="sep">·</span>
+      <span>4,5 no Google · Catalão, GO</span>
+    </div>
+    <h1>Donnana<em>Bistrô</em></h1>
+    <p class="tag">Um cantinho de teto de madeira, flores no lustre e comida de dar vontade de voltar sempre — dizem que é o ambiente mais aconchegante da cidade.</p>
+    <div class="hero-ctas">
+      <a href="#cardapio" class="btn btn-primary">Ver cardápio</a>
+      <a href="https://wa.me/5564981156667" target="_blank" class="btn btn-ghost">Chamar no WhatsApp</a>
+    </div>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<section class="about" id="sobre">
+  <div class="wrap">
+    <div class="kicker reveal">Nossa história</div>
+    <h2 class="sec-title reveal">Uma casa cheia de flor, madeira e cheiro de comida boa</h2>
+
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="images/hero2.jpg" alt="Salão interno do Donnana Bistrô com quadros florais e lustre">
+        <div class="about-badge"><span>Desde sempre um point em Catalão</span></div>
+      </div>
+      <div class="about-text">
+        <p class="reveal">Debaixo de um telhado de madeira e um lustre coberto de flores, o Donnana Bistrô reúne mesas de sinuca, quadros vintage na parede laranja-terracota e aquele clima de casa de vó — só que com cardápio de bistrô.</p>
+        <p class="reveal">Carnes no ponto, risotos cremosos, peixes no papillote e massas generosas dividem espaço com boas taças de vinho, num salão que os próprios clientes descrevem como o mais aconchegante da cidade.</p>
+        <div class="pill-row reveal">
+          <span class="pill">Restaurante brasileiro</span>
+          <span class="pill">Carnes &amp; risotos</span>
+          <span class="pill">Massas &amp; peixes</span>
+          <span class="pill">Carta de vinhos</span>
+        </div>
+        <div class="stats reveal">
+          <div class="stat"><b data-count="4.5" data-decimal="1">0</b><span>estrelas no Google</span></div>
+          <div class="stat"><b data-count="530">0</b><span>avaliações</span></div>
+          <div class="stat"><b data-count="80" data-suffix="–160">0</b><span>faixa de preço (R$)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="cardapio">
+  <div class="wrap">
+    <div class="kicker reveal">Cardápio</div>
+    <h2 class="sec-title reveal">Alguns dos favoritos da casa</h2>
+    <p class="sec-sub reveal">Uma amostra do que sai da cozinha — o cardápio completo tem ainda mais opções de carnes, massas, peixes e sobremesas. Ticket médio de R$ 80 a R$ 160 por pessoa.</p>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>Steak Tartare</span><span>Filé Donnana</span><span>Camarão ao Sugo</span><span>Tilápia ao Papillote</span><span>Risoto de Cogumelos</span><span>Salada d
